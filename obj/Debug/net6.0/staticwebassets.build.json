@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "10GmZPsifi6ZE23tXhYn5RttXp6r8D0WAeLafqolkto=",
+  "Source": "TemplateRestAPI",
+  "BasePath": "_content/TemplateRestAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
