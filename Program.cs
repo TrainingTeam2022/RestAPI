@@ -1,5 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using TemplateRestAPI.DBContext;
-using Npgsql;
+using TemplateRestAPI.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +9,18 @@ var builderForConfig = new ConfigurationBuilder()
                         .AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
 
 IConfiguration _configuration = builderForConfig.Build();
+
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 string connectionString = _configuration.GetConnectionString("local");
 
+builder.Services.ConfigServiceDI();
 
 // Add services to the container.
-/*builder.Services.AddDbContext<DemoDbContext>(options =>
+builder.Services.AddDbContext<DemoDbContext>(options =>
 {
-    options.(connectionString));
-});*/
+    options.UseNpgsql(connectionString);
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -35,5 +40,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(x => x
+       .AllowAnyOrigin()
+       .AllowAnyMethod()
+       .AllowAnyHeader());
 
 app.Run();
